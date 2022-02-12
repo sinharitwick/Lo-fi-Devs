@@ -1,0 +1,42 @@
+<%-include('partials/header') -%>
+
+
+    <div>
+        <h1>DashBoard</h1>
+    </div>
+        <div>
+
+            <% jobposts.forEach(function(jobpost){ %>
+                <div>
+                    <div>
+                        <a class="header" href="/posts/<%= jobpost._id%>">Posts</a>
+                        <div>
+                            <p><%- jobpost.domain %></p>
+                        </div>
+                        <div>
+                            <%=jobpost.vacancy%>
+                        </div>
+                        <div>
+                            <p><%- jobpost.skillreq %></p>
+                        </div>
+                        
+                        <div>
+                            <div><%=jobpost.created.toDateString()%></div>
+                        </div>
+                        <div>
+                            <a href="/posts/<%= jobpost._id%>">Read More</a>
+                        </div>
+
+                    </div>
+                    
+                       
+                    <!-- <a href="/blogs/<%= jobpost._id%>">Read More</a> -->
+                </div>
+                
+            <% }) %>
+        </div>
+    </div>
+    
+</div>
+<%- include('partials/footer') -%>
+        

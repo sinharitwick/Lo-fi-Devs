@@ -1,0 +1,24 @@
+<%-include('partials/header') -%>
+
+
+    
+        <div>
+            <p><%- jobpost.domain %></p>
+            
+            
+            
+            <p><%- jobpost.vacancy %></p>
+            <p><%- jobpost.skillreq %></p>
+            <span><%=jobpost.created.toDateString() %></span>
+            
+            <a href="/posts/<%=jobpost._id %>/edit">EDIT</a>
+            <form action="/posts/<%=jobpost._id %>?_method=DELETE" method="POST" id="delete">
+                <button>DELETE</button>
+            </form>
+        </div>
+    </div>
+</div>
+<%- include('partials/footer') -%>
+
+
+

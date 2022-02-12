@@ -1,0 +1,24 @@
+<%- include('partials/header') -%>
+
+<div>
+    <div >New JOb Post</div>
+    <form action="/posts" method="POST">
+        <div >
+            <label>Domain</label>
+            <input type="text" name="jobpost[domain]" placeholder="Domain">
+        </div>
+
+        <div >
+            <label>Vacancy</label>
+            <input type="number" name="jobpost[vacancy]" placeholder="Vacancy">
+        </div>
+
+        <div >
+            <label>Skill required</label>
+            <textarea name="jobpost[skillreq]" cols="30" rows="5"></textarea>
+        </div>
+        <input type="Submit">
+    </form>
+</div>
+
+<%- include('partials/footer') -%>
