@@ -1,0 +1,46 @@
+<%- include('partials/tnpheader') -%>
+
+
+    <div class="ui main text container">
+        <div class="ui huge header">
+            <h1 style="font-family: 'Poppins', sans-serif; margin-top: 30px;">T&P DashBoard</h1>
+        </div>
+    
+    <div class="ui top attached segment" style="position: relative;
+    top: 76px;">
+        <div class="ui divided items">
+
+            <% tnpposts.forEach(function(tnppost){ %>
+                <div class="item">
+                    <div>
+                        <a class="header" href="/tnpposts/<%= tnppost._id%>">Posts</a>
+                        <div class="content">
+                            <p><%- tnppost.name %></p>
+                        </div>
+                        <div>
+                            <%=tnppost.age%>
+                        </div>
+                        <div class="description">
+                            <p><%- tnppost.description %></p>
+                        </div>
+                        
+                        <div class="meta">
+                            <div><%=tnppost.created.toDateString()%></div>
+                        </div>
+                        <div>
+                            <a class="ui floated basic violet button" href="/tnpposts/<%= tnppost._id%>">Read More</a>
+                        </div>
+
+                    </div>
+                    
+                       
+                    <!-- <a href="/blogs/<%= tnppost._id%>">Read More</a> -->
+                </div>
+                
+            <% }) %>
+        </div>
+    </div>
+    
+</div>
+<%- include('partials/footer') -%>
+        

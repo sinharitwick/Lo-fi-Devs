@@ -1,14 +1,19 @@
 <%-include('partials/header') -%>
 
 
-    <div>
-        <h1>DashBoard</h1>
-    </div>
-        <div>
+    <div class="ui main text container">
+        <div class="ui huge header">
+            <h1 style="font-family: 'Poppins', sans-serif; margin-top: 30px;">Company DashBoard</h1>
+
+        </div>
+    
+    <div class="ui top attached segment" style="position: relative;
+    top: 76px;">
+            <div class="ui divided items"></div>
 
             <% jobposts.forEach(function(jobpost){ %>
-                <div>
-                    <div>
+                <div class="item">
+                    <div class="content">
                         <a class="header" href="/posts/<%= jobpost._id%>">Posts</a>
                         <div>
                             <p><%- jobpost.domain %></p>
@@ -16,15 +21,15 @@
                         <div>
                             <%=jobpost.vacancy%>
                         </div>
-                        <div>
+                        <div class="description">
                             <p><%- jobpost.skillreq %></p>
                         </div>
                         
-                        <div>
+                        <div class="meta">
                             <div><%=jobpost.created.toDateString()%></div>
                         </div>
-                        <div>
-                            <a href="/posts/<%= jobpost._id%>">Read More</a>
+                        <div class="extra">
+                            <a class="ui violet inverted button" href="/posts/<%= jobpost._id%>">Read More</a>
                         </div>
 
                     </div>

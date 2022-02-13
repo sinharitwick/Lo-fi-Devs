@@ -2,18 +2,30 @@
 
 
     
-        <div>
-            <p><%- jobpost.domain %></p>
+        <div class="ui main text container segments">
+            <div>
+                <p><%- jobpost.domain %></p>
+
+            </div>
+            <div>
+
+                <p><%- jobpost.vacancy %></p>
+            </div>
             
             
             
-            <p><%- jobpost.vacancy %></p>
-            <p><%- jobpost.skillreq %></p>
-            <span><%=jobpost.created.toDateString() %></span>
+            <div class="description">
+                <p><%- jobpost.skillreq %></p>
+
+            </div>
+            <div class="content">
+                <span><%=jobpost.created.toDateString() %></span>
+
+            </div>
             
-            <a href="/posts/<%=jobpost._id %>/edit">EDIT</a>
+            <a href="/posts/<%=jobpost._id %>/edit" class="ui violet inverted button" style="margin: 10px;">EDIT</a>
             <form action="/posts/<%=jobpost._id %>?_method=DELETE" method="POST" id="delete">
-                <button>DELETE</button>
+                <button class="ui violet inverted button" style="margin: 10px;">DELETE</button>
             </form>
         </div>
     </div>

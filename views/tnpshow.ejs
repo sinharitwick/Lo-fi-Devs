@@ -1,0 +1,33 @@
+<%- include('partials/tnpheader') -%>
+
+
+    
+        <div class="ui main text container segments">
+            <div>
+                <p><%- tnppost.name %></p>
+
+            </div>
+            <div>
+                <p><%- tnppost.age %></p>
+
+            </div>
+            
+            
+            
+            <div class="description">
+                <p><%- tnppost.description %></p>
+
+            </div>
+            <span><%=tnppost.created.toDateString() %></span>
+            
+            <a class="ui orange inverted button" style="margin: 10px;" href="/tnpposts/<%=tnppost._id %>/tnpedit">EDIT</a>
+            <form action="/tnpposts/<%=tnppost._id %>?_method=DELETE" method="POST" id="delete">
+                <button class="ui violet inverted button" style="margin: 10px;">DELETE</button>
+            </form>
+        </div>
+    </div>
+</div>
+<%- include('partials/footer') -%>
+
+
+

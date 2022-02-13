@@ -1,23 +1,24 @@
 <%- include('partials/header') -%>
 
-<div>
-    <div >New Job Post</div>
-    <form action="/posts" method="POST">
-        <div >
+<div class="ui main text container segments" style="position: relative;
+top: 76px;">
+    <div class="ui huge header" style="font-family: 'Poppins', sans-serif;">New Job Post</div>
+    <form class="ui form" action="/posts" method="POST">
+        <div class="field">
             <label>Domain</label>
             <input type="text" name="jobpost[domain]" placeholder="Domain">
         </div>
 
-        <div >
+        <div class="field">
             <label>Vacancy</label>
             <input type="number" name="jobpost[vacancy]" placeholder="Vacancy">
         </div>
 
-        <div >
+        <div class="field">
             <label>Skill required</label>
             <textarea name="jobpost[skillreq]" cols="30" rows="5"></textarea>
         </div>
-        <input type="Submit">
+        <input class="ui violet inverted button" type="Submit">
     </form>
 </div>
 

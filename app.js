@@ -235,90 +235,133 @@ app.delete("/posts/:id", function(req,res){
     })
 })
 
-//COMPANY DASHBOARD ROUTE
-app.get("/companydashboard", function(req, res){
-    res.render("compdash");
-});
+
+
+
+
+// =========
+// TNP BACKEND
+// ===========
 
 // T&P NEW ROUTE
-app.get("/posts/new", function(req,res){
-    res.render('new');
+mongoose.tnpdata = mongoose.createConnection('mongodb://localhost:27017/tnp-data');
+
+var tnpSchema = new mongoose.Schema({
+    name: String,
+    age:Number,
+    description:String,
+    created: {
+            type: Date,
+            default: Date.now
+        }
+});
+
+var Tnp = mongoose.tnpdata.model("Tnp", tnpSchema)
+
+// Tnp.create({
+//     domain:"Test Tnp",
+//     vacancy:"2",
+//     skillreq:"HelloHoomans"
+// });
+
+//Restful routes
+app.get("/",function(req,res){
+    res.redirect('/tnpposts');
+});
+//INDEX ROUTE
+
+app.get("/tnpposts",function(req,res){
+    Tnp.find({}, function(err, tnpposts){
+        if(err)
+        {
+            console.log("Error!");
+        }
+        else{
+            res.render('tnpindex', {tnpposts: tnpposts});
+            
+        }
+    })
 })
 
-// T&P CREATE ROUTE
-app.post("/posts", function(req, res){
+// NEW ROUTE
+app.get("/tnpposts/tnpnew", function(req,res){
+    res.render('tnpnew');
+})
+
+// CREATE ROUTE
+app.post("/tnpposts", function(req, res){
     // console.log(req.body);
     // req.body.blog.body = req.sanitize(req.body.blog.body);
 
     // console.log(req.body);
-    Tnp.create(req.body.jobpost, function(err, newCompany){
+    Tnp.create(req.body.tnppost, function(err, newtnppost){
         if(err)
         {
-            res.render("new");
+            res.render("tnpnew");
         }
         else{
-            res.redirect("/posts");
+            res.redirect("/tnpposts");
         }
     });
 });
 
-// T&P Show Route
-app.get("/posts/:id",function(req,res){
+// Show Route
+app.get("/tnpposts/:id",function(req,res){
     // res.send("SHOW PAGE!!!")
-    Tnp.findById(req.params.id, function(err, postCompany){
+    Tnp.findById(req.params.id, function(err, posttnp){
         if(err){
-            res.redirect("/posts");
+            res.redirect("/tnpposts");
         }
         else{
-            res.render("show", {jobpost: postCompany});
+            res.render("tnpshow", {tnppost: posttnp});
         }
     })
 });
 
-// T&P Edit Route
+// Edit Route
 
-app.get("/posts/:id/edit", function(req,res){
-    Tnp.findById(req.params.id, function(err, foundCompany){
+app.get("/tnpposts/:id/tnpedit", function(req,res){
+    Tnp.findById(req.params.id, function(err, foundtnp){
         if(err){
-            res.redirect("/posts");
+            res.redirect("/tnpposts");
         }
         else{
-            res.render("edit", {jobpost: foundCompany});
+            res.render("tnpedit", {tnppost: foundtnp});
         }
     });
 });
 
-// T&P update route
-app.put("/posts/:id", function(req,res){
-    req.body.jobpost.body = req.sanitize(req.body.jobpost.body);
-    Tnp.findByIdAndUpdate(req.params.id, req.body.jobpost, function(err, updatedCompany){
+// update route
+app.put("/tnpposts/:id", function(req,res){
+    req.body.tnppost.body = req.sanitize(req.body.tnppost.body);
+    Tnp.findByIdAndUpdate(req.params.id, req.body.tnppost, function(err, updatedCompany){
         if(err)
         {
-            res.redirect("/posts");
+            res.redirect("/tnpposts");
         }
         else{
-            res.redirect("/posts/" + req.params.id)
+            res.redirect("/tnpposts/" + req.params.id)
         }
     })
 })
 
-// T&P DELETE ROUTE
+// DELETE ROUTE
 
-app.delete("/posts/:id", function(req,res){
+app.delete("/tnpposts/:id", function(req,res){
     // res.send("Destroy route")
     Tnp.findByIdAndRemove(req.params.id, function(err){
         if(err)
         {
-            res.redirect("/posts");
+            res.redirect("/tnpposts");
         }
         else{
-            res.redirect("/posts");
+            res.redirect("/tnpposts");
         }
     })
 })
 
 //Feed Route
-app.get("/feed", function(req, res){
+app.get("/feed", isLoggedIn, function(req, res){
     res.render("feed");
 });
 

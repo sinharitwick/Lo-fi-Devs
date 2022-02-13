@@ -1,0 +1,25 @@
+<%- include('partials/tnpheader') -%>
+
+<div class="ui main text container segments" style="position: relative;
+top: 76px;">
+    <div class="ui huge header" >Candidate Posts</div>
+    <form class="ui form" action="/tnpposts" method="POST">
+        <div class="field">
+            <label>Name</label>
+            <input type="text" name="tnppost[name]" placeholder="Name">
+        </div>
+
+        <div class="field">
+            <label>Age</label>
+            <input type="number" name="tnppost[age]" placeholder="Age">
+        </div>
+
+        <div class="field">
+            <label>Description</label>
+            <textarea name="tnppost[description]" cols="30" rows="5"></textarea>
+        </div>
+        <input class="ui violet big basic button" type="Submit">
+    </form>
+</div>
+
+<%- include('partials/footer') -%>
