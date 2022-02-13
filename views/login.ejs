@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lofi | Login</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+        *{
+            font-family: 'Poppins', sans-serif;
+        }
+        .row {
+            display: flex;
+        }
+        
+        .column {
+            margin: 100px;
+            flex: 50%;
+        }
+        
+        .boxe {
+            width: 200px;
+            padding: 5px;
+            border-color: silver;
+            border-radius: 20px;
+            outline: none;
+        }
+        
+        #btnsign {
+            width: 200px;
+            padding: 5px;
+            border: none;
+            border-radius: 20px;
+            color: white;
+            background-color: #717bc1;
+            transition: 0.5s ease;
+        }
+        
+        #btnsign:hover {
+            cursor: pointer;
+            background-color: #1f2447;
+        }
+        
+        #linkhere {
+            color: #717bc1;
+        }
+        
+        #linkhere:hover {
+            color: #1f2447;
+        }
+        
+        #linkhere {
+            color: #717bc1;
+        }
+        
+        .terms {
+            color: black;
+            text-decoration: none;
+        }
+        
+        .terms:hover {
+            text-decoration: underline;
+        }
+        
+        @media screen and (max-width: 600px) {
+            .column {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="row">
+        <div class="column">
+            <img src="https://image.freepik.com/free-vector/artists-sculptors-creating-artworks-workshop-design-studio_74855-16032.jpghttps://image.freepik.com/free-vector/artists-sculptors-creating-artworks-workshop-design-studio_74855-16032.jpg" alt="This is an image">
+        </div>
+        <div class="column">
+            <h3>LOGIN</h3>
+            <form action="/login" method="POST">
+            <p>Username</p>
+                <input type="text" name="username" class="boxe" placeholder="Enter your username">
+            <p>Password</p>
+                <input type="password" name="password" class="boxe" placeholder="Enter password">
+            <p><input type="checkbox" name="check" id="check">Remember me</p>
+            <p>Type (Company/T&PCell)</p>
+            <p><input type="text" name="type" class="boxe" placeholder="Enter type"></p>
+            <button type="submit" id="btnsign">Login</button>
+            <p>Don't have an account? <a href="/register" id="linkhere">Sign up</a></p>
+            <h6>By continuing you indicate that you agree to Lofi's <a href="#" class="terms">Terms of Service</a> and <a href="#" class="terms">Privacy Policy</a>.</h6>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

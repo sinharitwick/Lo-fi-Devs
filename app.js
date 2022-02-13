@@ -1,21 +1,47 @@
 const express = require('express');
 var app = express(); 
-const port = 4000;
 const bodyParser = require("body-parser");
 var mongoose = require('mongoose');
-var methodOverride = require("method-override")
-var expressSanitizer = require("express-sanitizer") 
+var methodOverride = require("method-override");
+var expressSanitizer = require("express-sanitizer");
+var passport = require('passport');
+var LocalStrategy = require('passport-local');
+var User = require("./models/user");
 
 mongoose.connect('mongodb://localhost:27017/lo-fi');
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended:true}));
-app.use(express.static('public'));
+//app.use(express.static('public'));
 app.use(expressSanitizer());
 app.use(methodOverride("_method"));
 
-// mongoose/model config
+//PASSPORT CONFIG
+app.use(require("express-session")({
+    secret: "Lofi is a good company",
+    resave: false,
+    saveUninitialized: false
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(new LocalStrategy (User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+//app.get("/",  ,f(){
+//
+//})
+
+app.use(function(req, res, next){
+    res.locals.currentUser=req.user;
+    next();
+});
+
+// mongoose/model company config
 var companySchema = new mongoose.Schema({
     domain: String,
     vacancy:Number,
@@ -34,13 +60,32 @@ var Company = mongoose.model("Company", companySchema)
 //     skillreq:"HelloHoomans"
 // });
 
+// mongoose/model tnp config
+var tnpSchema = new mongoose.Schema({
+    name: String,
+    age:Number,
+    description:String,
+    created: {
+            type: Date,
+            default: Date.now
+        }
+});
+
+var Tnp = mongoose.model("Tnp", tnpSchema)
+
+// Tnp.create({
+//     domain:"Test Tnp",
+//     vacancy:"2",
+//     skillreq:"HelloHoomans"
+// });
+
 //Restful routes
 app.get("/",function(req,res){
-    res.redirect('/posts');
+    res.render("home");
 });
 //INDEX ROUTE
 
-app.get("/posts",function(req,res){
+app.get("/posts", isLoggedIn, function(req,res){
     Company.find({}, function(err, jobposts){
         if(err)
         {
@@ -53,13 +98,73 @@ app.get("/posts",function(req,res){
     })
 })
 
-// NEW ROUTE
-app.get("/posts/new", function(req,res){
+
+//======================
+//AUTH ROUTES
+//======================
+
+//Register FORM
+app.get("/register", function(req, res){
+    res.render('register');
+});
+
+//handle sign up logic
+app.post("/register", function(req, res){
+    var newUser = new User({username: req.body.username, type: req.body.type});
+    User.register(newUser, req.body.password, function(err, user){
+        if(err){
+            console.log(err);
+            return res.render("register")
+        }
+        passport.authenticate("local")(req, res, function(){
+            if(req.body.type=="Company")
+            {
+                res.redirect("/posts");
+            }
+            else if(req.body.type=="T&PCell")
+            {
+                res.redirect("/feed");
+            }
+            else
+            res.redirect("/register");
+        });
+    });
+});
+
+//Login FORM
+app.get("/login", function(req, res){
+    res.render('login');
+});
+
+//handle login logic
+app.post("/login", passport.authenticate("local", 
+    {
+        successRedirect: "/feed",
+        failureRedirect: "/login"
+    }), function(req, res){
+});
+
+//Logout route
+app.get("/logout", function(req, res){
+    req.logout();
+    res.redirect("/");
+});
+
+//middleware
+function isLoggedIn(req, res, next){
+    if(req.isAuthenticated()){
+        return next();
+    }
+    res.redirect("/login");
+}
+
+// COMPANY NEW ROUTE
+app.get("/posts/new", isLoggedIn, function(req,res){
     res.render('new');
 })
 
-// CREATE ROUTE
-app.post("/posts", function(req, res){
+// COMPANY CREATE ROUTE
+app.post("/posts", isLoggedIn, function(req, res){
     // console.log(req.body);
     // req.body.blog.body = req.sanitize(req.body.blog.body);
 
@@ -75,7 +180,7 @@ app.post("/posts", function(req, res){
     });
 });
 
-// Show Route
+// COMPANY Show Route
 app.get("/posts/:id",function(req,res){
     // res.send("SHOW PAGE!!!")
     Company.findById(req.params.id, function(err, postCompany){
@@ -88,7 +193,7 @@ app.get("/posts/:id",function(req,res){
     })
 });
 
-// Edit Route
+// COMPANY Edit Route
 
 app.get("/posts/:id/edit", function(req,res){
     Company.findById(req.params.id, function(err, foundCompany){
@@ -101,7 +206,7 @@ app.get("/posts/:id/edit", function(req,res){
     });
 });
 
-// update route
+// company update route
 app.put("/posts/:id", function(req,res){
     req.body.jobpost.body = req.sanitize(req.body.jobpost.body);
     Company.findByIdAndUpdate(req.params.id, req.body.jobpost, function(err, updatedCompany){
@@ -115,7 +220,7 @@ app.put("/posts/:id", function(req,res){
     })
 })
 
-// DELETE ROUTE
+// company DELETE ROUTE
 
 app.delete("/posts/:id", function(req,res){
     // res.send("Destroy route")
@@ -129,6 +234,94 @@ app.delete("/posts/:id", function(req,res){
         }
     })
 })
-app.listen(port, function(){
+
+//COMPANY DASHBOARD ROUTE
+app.get("/companydashboard", function(req, res){
+    res.render("compdash");
+});
+
+// T&P NEW ROUTE
+app.get("/posts/new", function(req,res){
+    res.render('new');
+})
+
+// T&P CREATE ROUTE
+app.post("/posts", function(req, res){
+    // console.log(req.body);
+    // req.body.blog.body = req.sanitize(req.body.blog.body);
+
+    // console.log(req.body);
+    Tnp.create(req.body.jobpost, function(err, newCompany){
+        if(err)
+        {
+            res.render("new");
+        }
+        else{
+            res.redirect("/posts");
+        }
+    });
+});
+
+// T&P Show Route
+app.get("/posts/:id",function(req,res){
+    // res.send("SHOW PAGE!!!")
+    Tnp.findById(req.params.id, function(err, postCompany){
+        if(err){
+            res.redirect("/posts");
+        }
+        else{
+            res.render("show", {jobpost: postCompany});
+        }
+    })
+});
+
+// T&P Edit Route
+
+app.get("/posts/:id/edit", function(req,res){
+    Tnp.findById(req.params.id, function(err, foundCompany){
+        if(err){
+            res.redirect("/posts");
+        }
+        else{
+            res.render("edit", {jobpost: foundCompany});
+        }
+    });
+});
+
+// T&P update route
+app.put("/posts/:id", function(req,res){
+    req.body.jobpost.body = req.sanitize(req.body.jobpost.body);
+    Tnp.findByIdAndUpdate(req.params.id, req.body.jobpost, function(err, updatedCompany){
+        if(err)
+        {
+            res.redirect("/posts");
+        }
+        else{
+            res.redirect("/posts/" + req.params.id)
+        }
+    })
+})
+
+// T&P DELETE ROUTE
+
+app.delete("/posts/:id", function(req,res){
+    // res.send("Destroy route")
+    Tnp.findByIdAndRemove(req.params.id, function(err){
+        if(err)
+        {
+            res.redirect("/posts");
+        }
+        else{
+            res.redirect("/posts");
+        }
+    })
+})
+
+//Feed Route
+app.get("/feed", function(req, res){
+    res.render("feed");
+});
+
+app.listen(process.env.PORT || 4000, function(){
     console.log("The app is started....");
 });

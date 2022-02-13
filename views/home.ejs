@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+*{
+    box-sizing: border-box;
+    margin: 0;
+}
+
+body{
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden;
+}
+
+/* Navigation */
+.nav-container{
+    background: #FFFFFF;
+    /* background-color: aqua; */
+    box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.1);
+    height: 72px;
+    
+}
+
+.wrapper{
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+nav{
+    /* background-color: blanchedalmond; */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+nav ul{
+    display: flex;
+}
+
+nav .logo{
+    font-family: 'Times New Roman', Times, serif;
+    font-style: normal;
+    font-weight: 800;
+    font-size: 64px;
+    color: #021718;
+}
+
+.nav-items li{
+    list-style: none;
+    margin-right: 100px;    
+}
+
+.nav-items li a{
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 28px;
+    color: #2F281E;
+    text-decoration: none;
+}
+
+/* Header */
+.header-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* background-color: cadetblue; */
+}
+
+.wrapper h1{
+    position: absolute;
+    width: 518px;
+    height: 108px;
+    left: 98px;
+    top: 215px;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 44px;
+    line-height: 54px;
+    color: rgba(47, 40, 30, 0.85);
+}
+
+.wrapper p{
+    position: absolute;
+    width: 458px;
+    height: 95px;
+    left: 98px;
+    top: 324px;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 28px;
+    color: #544837;
+}
+
+.wrapper img{
+
+    position: relative;
+    width: 722px;
+    left: 481px;
+    top: 157px;
+    /* border: 2px solid red; */
+}
+
+.btn{
+    position: relative;
+    right: 310px;
+}
+
+#emp{
+    font-family: 'Poppins', sans-serif;
+    padding: 12px 38px;
+    border: beige;
+    border-radius: 27px;
+    background-color: #26a0da;
+    transition: 0.5s;
+    color: white;
+    font-weight: bold;
+}
+
+#emp:hover{
+    cursor: pointer;
+    background-color: #314755;
+}
+    </style>
+</head>
+<body>
+    <div class="nav-container">
+        <div class="wrapper">
+            <nav>
+                <div class="logo">
+                    L.
+                </div>
+                <ul class="nav-items">
+                    <li>
+                        <a href="/feed">Feed</a>
+                    </li>
+                    <li>
+                        <a href="/register">Sign Up</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <div class="header-container">
+        <div class="wrapper">
+            <div class="hero-container">
+                <h1>Welcome</h1>
+                <p>
+                    Get connected to placement cells across the country and partner up with companies around the globe, across all domains. Become a part of the ecosystem now!
+                </p>
+                <div class="hero-image">
+                    <img src="https://cdn.uideck.com/wp-content/uploads/2020/11/free-svg-illustrations.jpg" alt="hero-image">
+                </div>
+                <a href="/login"><button class="btn" id="emp">Login</button></a>
+            </div>
+            
+        </div>
+    </div>
+</body>
+</html>
